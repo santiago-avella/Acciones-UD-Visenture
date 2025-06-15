@@ -18,6 +18,7 @@ import { OrdersModule } from './orders/orders.module';
 import { SharesModule } from './shares/shares.module';
 import { BriefcaseModule } from './briefcases/briefcases.module';
 import { RolesPermissionModule } from './roles-permission/roles-permission.module';
+import { AdvisorModule } from './advisor/advisor.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { RolesPermissionModule } from './roles-permission/roles-permission.modul
     BriefcaseModule,
     StocksModule,
     RolesPermissionModule,
+    AdvisorModule,
   ],
   controllers: [AppController, StocksController],
   providers: [AppService],

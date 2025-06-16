@@ -1,0 +1,25 @@
+# Asignar comisionista a Usuario
+
+Generico:
+
+POST http://localhost:3000/api/advisor/assign/:advisorId
+Authorization: Bearer <token_de_usuario>
+
+Ej:
+POST http://localhost:3000/api/advisor/assign/100038954
+Authorization: Bearer <token_de_usuario>
+
+Response:
+
+{
+  "id": 1,
+  "clientId": "100039482",
+  "advisorId": "100038954",
+  "assigned_at": "2025-06-15T19:03:09.246Z",
+  "updated_at": "2025-06-15T19:03:09.246Z",
+  "is_active": true
+}
+
+*Se envia un correo notificando al comisionista* 
+[Nest] 35612  - 06/15/2025, 2:35:36 PM     LOG [MailService] Email sent to: wawoti9698@ihnpo.com
+[Nest] 35612  - 06/15/2025, 2:35:36 PM     LOG [NotificationService] Notificación enviada al comisionista: 100038954

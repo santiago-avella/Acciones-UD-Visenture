@@ -20,7 +20,7 @@ import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolesGuard)
+//@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,

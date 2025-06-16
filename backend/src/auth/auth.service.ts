@@ -120,6 +120,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload);
+    console.log('Access Token generado:', accessToken);
 
     return {
       success: true,
@@ -128,10 +129,10 @@ export class AuthService {
   }
 
   async requestPasswordReset(email: string) {
-    //  const account = await this.accountsService.findByEmail(email);
-    // if (!account) {
-    //  throw new UnauthorizedException('No existe una cuenta con ese correo electrónico');
-    //}
+    const account = await this.accountsService.findByEmail(email);
+    if (!account) {
+    throw new UnauthorizedException('No existe una cuenta con ese correo electrónico');
+    }
     const token = this.generateToken2MFA.generateToken();
     await this.tokensService.storeToken(
       email,
@@ -191,7 +192,6 @@ export class AuthService {
     }
   }
 
-  // auth.service.ts
   async changePassword(identity_document: string, data: ChangePasswordDto) {
     // Busca el usuario y su cuenta (con join en relations)
     const user = await this.usersService.findById(identity_document, [
@@ -208,8 +208,6 @@ export class AuthService {
     if (!passwordOk)
       throw new BadRequestException('La contraseña actual es incorrecta');
     console.log(data.newPassword);
-    // Hashea la nueva clave y actualiza
-    //const newHash = await this.hashingProvider.hashPassword(data.newPassword);
     await this.accountsService.updatePassword(
       user.account.id,
       data.newPassword,

@@ -11,11 +11,13 @@ import {
 import { AdvisorService } from './advisor.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
+import { User } from 'src/users/users.entity';
+import { AuthenticatedRequest } from './dto/auth-request.dto';
 
 @Controller('advisor')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class AdvisorController {
-  constructor(private readonly advisorService: AdvisorService) {}
+  constructor(private readonly advisorService: AdvisorService) { }
 
   @Get('certified')
   async getCertifiedAdvisors() {
@@ -24,27 +26,19 @@ export class AdvisorController {
 
   @Post('assign/:advisorId')
   async assignAdvisor(
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
     @Param('advisorId') advisorId: string,
   ) {
-    const userId = (req.user as { identity_document: string }).identity_document;
+    if (!req.user?.userId) {
+      throw new NotFoundException('Usuario no autenticado correctamente');
+    }
+    const userId = req.user.userId; 
     return this.advisorService.assignAdvisor(userId, advisorId);
   }
 
   @Get('my-advisor')
-  async getMyAdvisor(@Req() req: Request) {
-    const userId = (req.user as { identity_document: string }).identity_document;
-    const advisor = await this.advisorService.getAssignedAdvisor(userId);
-    
-    if (!advisor) {
-      throw new NotFoundException('No tienes un comisionista asignado');
-    }
-    
-    return {
-      identity_document: advisor.identity_document,
-      first_name: advisor.first_name,
-      last_name: advisor.last_name,
-      phone: advisor.phone,
-    };
+  async getMyAdvisor(@Req() req: AuthenticatedRequest) {
+    const userId = req.user.userId;
+    return await this.advisorService.getAssignedAdvisor(userId);
   }
 }

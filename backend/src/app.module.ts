@@ -19,6 +19,8 @@ import { SharesModule } from './shares/shares.module';
 import { BriefcaseModule } from './briefcases/briefcases.module';
 import { RolesPermissionModule } from './roles-permission/roles-permission.module';
 import { AdvisorModule } from './advisor/advisor.module';
+import { NotificationModule } from './notification/notification.module';
+import { EventType } from './notification/entities/event-type.entity';
 
 @Module({
   imports: [
@@ -55,6 +57,9 @@ import { AdvisorModule } from './advisor/advisor.module';
     StocksModule,
     RolesPermissionModule,
     AdvisorModule,
+    NotificationModule,
+    TypeOrmModule,
+    
   ],
   controllers: [AppController, StocksController],
   providers: [AppService],
